@@ -2,6 +2,12 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\IndexController;
+
+
+
+Route::get('/index', [IndexController::class, 'index'])->name('index');
+
 
 Route::get('/', function () {
     return view('welcome');
