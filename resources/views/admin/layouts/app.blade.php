@@ -13,7 +13,7 @@
     <link rel="icon" href="/assets/docimage/sarzonelogo.png">
     <!-- TITLE -->
     <title> @yield('title')</title>
-    @include('includes.style')
+    @include('admin.includes.style')
 
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
@@ -32,8 +32,8 @@
     <!-- PAGE -->
     <div class="page">
 
-        @include('includes.header')
-        @include('includes.sidebar')
+        @include('admin.includes.header')
+        @include('admin.includes.sidebar')
 
         <!-- MAIN-CONTENT -->
 
@@ -85,7 +85,7 @@
         <span class="arrow"><i class="ri-arrow-up-s-fill fs-20"></i></span>
     </div>
     <div id="responsive-overlay"></div>
-    @include('includes.script')
+    @include('admin.includes.script')
 </body>
 
 </html>

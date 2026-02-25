@@ -23,27 +23,6 @@
 
         <div class="header-content-right mt-2">
             <div class="header-element">
-                <div class="dropdown">
-                    <a href="#" class="header-link dropdown-toggle" id="languageDropdown"
-                        data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="bx bx-globe me-1"></i> {{ app()->getLocale() == 'ur' ? 'اردو' : 'English' }}
-                    </a>
-                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="languageDropdown">
-                        <li>
-                            <a class="dropdown-item d-flex align-items-center" href="{{ route('lang.switch', 'en') }}">
-                                <span class="flag-icon flag-icon-us me-2"></span> English
-                            </a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item d-flex align-items-center" href="{{ route('lang.switch', 'ur') }}">
-                                <span class="flag-icon flag-icon-pk me-2"></span> اردو
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="header-element">
                 <a href="javascript:void(0);" class="header-link dropdown-toggle" id="mainHeaderProfile"
                     data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
                     <div class="d-flex align-items-center">
