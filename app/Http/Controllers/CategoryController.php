@@ -23,7 +23,6 @@ class CategoryController extends Controller
             'title.unique' => 'This category already exists.',
         ]);
 
-        // Generate Unique Slug
         $slug = Str::slug($request->title);
         $originalSlug = $slug;
         $count = 1;
@@ -52,11 +51,7 @@ class CategoryController extends Controller
         $originalSlug = $slug;
         $count = 1;
 
-        while (
-            Category::where('slug', $slug)
-                ->where('id', '!=', $id)
-                ->exists()
-        ) {
+        while (Category::where('slug', $slug)->where('id', '!=', $id)->exists()) {
             $slug = $originalSlug . '-' . $count++;
         }
 

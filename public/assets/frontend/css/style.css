@@ -1,0 +1,200 @@
+   :root {
+        --primary: #f39c12;
+        --secondary: #2c3e50;
+        --light-bg: #f8f9fa;
+        --glass: rgba(255, 255, 255, 0.9);
+    }
+
+    body {
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        background-color: #ffffff;
+        color: #1a1a1a;
+    }
+
+    /* Modern Navbar */
+    .navbar {
+        padding: 15px 0;
+        backdrop-filter: blur(10px);
+        background: var(--glass);
+    }
+
+    .navbar-brand {
+        font-weight: 800;
+        letter-spacing: -1px;
+        font-size: 1.5rem;
+    }
+
+    /* Hero Section - Clean & Minimal */
+    .hero-section {
+        padding: 140px 0 100px;
+        background: radial-gradient(circle at top right, #fff9f0, #ffffff);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .hero-section::after {
+        content: '';
+        position: absolute;
+        top: -100px;
+        right: -100px;
+        width: 400px;
+        height: 400px;
+        background: rgba(243, 156, 18, 0.05);
+        border-radius: 50%;
+        z-index: 0;
+    }
+
+    .search-container {
+        background: #fff;
+        padding: 10px;
+        border-radius: 20px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.06);
+        border: 1px solid #f1f1f1;
+        margin-top: 50px;
+        position: relative;
+        z-index: 1;
+    }
+
+    .form-control-lg {
+        border: none;
+        font-size: 1rem;
+        padding-left: 20px;
+    }
+
+    .btn-search {
+        background: var(--primary);
+        color: white;
+        border-radius: 15px;
+        padding: 15px 40px;
+        font-weight: 700;
+        transition: all 0.3s ease;
+    }
+
+    .btn-search:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 20px rgba(243, 156, 18, 0.3);
+        color: white;
+    }
+
+    /* Modern Categories */
+    .cat-box {
+        background: #fff;
+        padding: 30px 20px;
+        border-radius: 24px;
+        border: 1px solid #f0f0f0;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        cursor: pointer;
+    }
+
+    .cat-box:hover {
+        border-color: var(--primary);
+        box-shadow: 0 20px 30px rgba(0, 0, 0, 0.05);
+        transform: translateY(-10px);
+    }
+
+    .cat-icon-wrapper {
+        width: 60px;
+        height: 60px;
+        background: #fff9f0;
+        border-radius: 18px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 15px;
+        color: var(--primary);
+        font-size: 24px;
+    }
+
+    /* Worker Cards - Glassmorphism touch */
+    .worker-card {
+        border: 1px solid #f0f0f0;
+        border-radius: 24px;
+        padding: 10px;
+        background: #fff;
+        transition: 0.3s;
+    }
+
+    .worker-card:hover {
+        box-shadow: 0 30px 50px rgba(0, 0, 0, 0.08);
+    }
+
+    .worker-img-wrapper {
+        position: relative;
+        border-radius: 20px;
+        overflow: hidden;
+    }
+
+    .worker-img {
+        height: 220px;
+        width: 100%;
+        object-fit: cover;
+    }
+
+    .badge-rating {
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
+        background: rgba(255, 255, 255, 0.9);
+        padding: 5px 12px;
+        border-radius: 12px;
+        font-weight: 700;
+        font-size: 0.8rem;
+    }
+
+    .btn-view {
+        background: #f8f9fa;
+        color: var(--secondary);
+        border: none;
+        border-radius: 14px;
+        font-weight: 600;
+        padding: 12px;
+        transition: 0.3s;
+    }
+
+    .btn-view:hover {
+        background: var(--secondary);
+        color: white;
+    }
+
+    footer {
+        background: #0f172a;
+        padding: 80px 0 40px;
+        color: #94a3b8;
+    }
+
+    footer h5 {
+        color: white;
+        font-weight: 700;
+        margin-bottom: 25px;
+    }
+
+    .footer-link {
+        color: #94a3b8;
+        transition: 0.3s;
+    }
+
+    .footer-link:hover {
+        color: #f39c12;
+        padding-left: 5px;
+    }
+
+    .social-icon {
+        width: 35px;
+        height: 35px;
+        background: rgba(255, 255, 255, 0.05);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        transition: 0.3s;
+    }
+
+    .social-icon:hover {
+        background: #f39c12;
+        transform: translateY(-3px);
+    }
+
+    .custom-newsletter .form-control::placeholder {
+        color: #64748b;
+        font-size: 0.9rem;
+    }

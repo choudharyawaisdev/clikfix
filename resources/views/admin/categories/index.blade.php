@@ -1,12 +1,11 @@
 @extends('admin.layouts.app')
 
 @section('title')
-    Category Index
+    Category Management
 @endsection
 
 @section('body')
     <div class="container-fluid">
-        <!-- PAGE HEADER -->
         <div class="d-md-flex d-block align-items-center justify-content-between my-4 page-header-breadcrumb">
             <nav>
                 <ol class="breadcrumb mb-0">
@@ -17,7 +16,6 @@
             <button class="btn btn-primary btn-sm" onclick="openAddModal()">Add Category</button>
         </div>
 
-        <!-- TABLE -->
         <div class="col-xl-12">
             <div class="card custom-card overflow-hidden">
                 <div class="card-header d-flex justify-content-between align-items-center">
@@ -30,28 +28,28 @@
                                 <tr>
                                     <th>Sr</th>
                                     <th>Title</th>
+                                    <th>Slug</th>
                                     <th>Created At</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($categories as $index => $categories)
+                                @foreach ($categories as $index => $category)
                                     <tr>
                                         <td>{{ $index + 1 }}</td>
-                                        <td>{{ $categories->title }}</td>
-                                        <td>{{ $categories->created_at->format('d-m-Y') }}</td>
+                                        <td>{{ $category->title }}</td>
+                                        <td>{{ $category->slug }}</td>
+                                        <td>{{ $category->created_at->format('d-m-Y') }}</td>
                                         <td class="text-nowrap">
                                             <button class="btn btn-sm btn-outline-warning me-2"
-                                                onclick="prepareEditModal({{ $categories->id }}, '{{ addslashes($category->name ?? $category->title ?? '') }}', '{{ $category->image ? Storage::url($category->image) : '' }}')">
+                                                onclick="openEditModal({{ $category }})">
                                                 <i class="fa fa-pen-to-square me-1"></i> Edit
                                             </button>
 
-                                            <form action="{{ route('admin.categories.destroy', $category->id) }}" method="POST"
-                                                class="d-inline">
+                                            <form action="{{ route('admin.categories.destroy', $category->id) }}" method="POST" class="d-inline">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" class="btn btn-sm btn-outline-danger"
-                                                    onclick="return confirm('Are you sure you want to delete this category? Items in this category may become uncategorized.')">
+                                                <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Are you sure?')">
                                                     <i class="fa fa-trash me-1"></i> Delete
                                                 </button>
                                             </form>
@@ -66,30 +64,25 @@
         </div>
     </div>
 
-    <!-- MODAL -->
-    <div class="modal fade" id="categoryModal" tabindex="-1" role="dialog" aria-labelledby="categoryModalLabel"
-        aria-hidden="true">
+    <div class="modal fade" id="categoryModal" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <form id="categoryForm" method="POST" action="">
                 @csrf
-                <input type="hidden" name="_method" value="POST" id="formMethod">
-                <input type="hidden" name="id" id="category_id">
-
+                <div id="methodField"></div>
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="categoryModalLabel">Edit Category</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
+                        <h5 class="modal-title" id="categoryModalLabel">Category</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
-                            <label for="title">Title</label>
+                            <label for="title" class="mb-2">Title</label>
                             <input type="text" class="form-control" name="title" id="title" required>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary" id="saveBtn">Save</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
                     </div>
                 </div>
             </form>
@@ -98,25 +91,22 @@
 
     <script>
         function openAddModal() {
-            $('#categoryForm').attr('action', '{{ route('admin.categories.store') }}');
-            $('#formMethod').val('POST');
+            $('#categoryForm').attr('action', '{{ route("admin.categories.store") }}');
+            $('#methodField').html('');
             $('#categoryModalLabel').text('Add Category');
             $('#title').val('');
-            $('#category_id').val('');
             $('#categoryModal').modal('show');
         }
 
         function openEditModal(category) {
-            $('#categoryForm').attr('action', '/admin/categories/' + category.id);
-            $('#formMethod').val('PUT');
+            let url = '{{ route("admin.categories.update", ":id") }}';
+            url = url.replace(':id', category.id);
+            
+            $('#categoryForm').attr('action', url);
+            $('#methodField').html('@method("PUT")');
             $('#categoryModalLabel').text('Edit Category');
             $('#title').val(category.title);
-            $('#category_id').val(category.id);
             $('#categoryModal').modal('show');
-        }
-
-        function confirmDelete() {
-            return confirm('Are you sure you want to delete this category?');
         }
     </script>
 @endsection
