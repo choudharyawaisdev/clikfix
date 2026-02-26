@@ -4,12 +4,33 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\WorkerController;
+
+
 
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::resource('categories', CategoryController::class);
 });
 
 Route::get('/index', [IndexController::class, 'index'])->name('index');
+
+
+Route::prefix('worker')->name('worker.')->group(function () {
+    Route::get('/profile_details', [WorkerController::class, 'profile_details'])->name('profile_details');
+    Route::get('/list', [WorkerController::class, 'worker_list'])->name('worker_list');
+});
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 Route::get('/', function () {
@@ -26,4 +47,4 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
