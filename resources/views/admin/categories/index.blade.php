@@ -77,7 +77,7 @@
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="title" class="mb-2">Title</label>
-                            <input type="text" class="form-control" name="title" id="title" required>
+                            <input type="text" class="form-control" name="title" id="title" placeholder=" Category Title" required>
                         </div>
                     </div>
                     <div class="modal-footer">

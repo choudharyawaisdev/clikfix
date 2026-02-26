@@ -27,45 +27,37 @@
 
                 <li class="slide">
                     <a href="{{ url('dashboard') }}" class="side-menu__item">
-                        <i class="bx bx-home-alt-2 side-menu__icon"></i>
+                        <i class="bx bxs-dashboard side-menu__icon"></i>
                         <span class="side-menu__label">Dashboard</span>
                     </a>
                 </li>
 
                 <li class="slide">
                     <a href="{{ route('admin.categories.index') }}" class="side-menu__item">
-                        <i class="bx bx-home-alt-2 side-menu__icon"></i>
+                        <i class="bx bx-category side-menu__icon"></i>
                         <span class="side-menu__label">Category</span>
                     </a>
                 </li>
 
                 <li class="slide">
                     <a href="{{ url('admin.workers.index') }}" class="side-menu__item">
-                        <i class="bx bx-group side-menu__icon"></i>
+                        <i class="bx bx-hard-hat side-menu__icon"></i>
                         <span class="side-menu__label">Manage Workers</span>
                     </a>
                 </li>
 
                 <li class="slide">
-                    <a href="{{ url('admin.credits.index') }}" class="side-menu__item">
-                        <i class="bx bx-credit-card side-menu__icon"></i>
-                        <span class="side-menu__label">Credit Sales</span>
-                    </a>
-                </li>
-
-                <li class="slide">
                     <a href="{{ url('admin.reviews.index') }}" class="side-menu__item">
-                        <i class="bx bx-star side-menu__icon"></i>
+                        <i class="bx bx-chat side-menu__icon"></i>
                         <span class="side-menu__label">User Reviews</span>
                     </a>
                 </li>
 
-
                 @auth
                     <li class="slide mt-2">
-                        <a href="#" class="side-menu__item"
+                        <a href="#" class="side-menu__item text-danger"
                             onclick="event.preventDefault(); document.getElementById('logout-link').submit();">
-                            <i class="bx bx-log-out side-menu__icon"></i>
+                            <i class="bx bx-power-off side-menu__icon" style="color: #dc3545;"></i>
                             <span class="side-menu__label">Logout</span>
                         </a>
                         <form id="logout-link" action="{{ route('logout') }}" method="POST" style="display: none;">

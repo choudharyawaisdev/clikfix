@@ -74,10 +74,8 @@
 
         <div class="d-flex align-items-center">
             @guest
-                <a href="{{ route('register') }}"
-                    class="nav-link-partner me-4 d-none d-md-block fw-semibold text-decoration-none">Become a Partner</a>
-                <a href="{{ route('login') }}" class="btn btn-dark px-4 py-2 rounded-pill fw-bold shadow-sm"
-                    style="font-size: 0.9rem;">Login</a>
+                <a href="{{ route('register') }}" class="btn px-4 py-2 rounded-pill fw-bold shadow-sm"
+                    style="font-size: 0.9rem;background-color: #f39c12;color: white;">Register</a>
             @endguest
 
             @auth
