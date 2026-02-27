@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\WorkerController;
+use App\Http\Controllers\WorkerJobController;
 
 
 
@@ -14,8 +15,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
 Route::get('/index', [IndexController::class, 'index'])->name('index');
 
-
 Route::prefix('worker')->name('worker.')->group(function () {
+    Route::resource('jobworker', WorkerJobController::class);
     Route::get('/profile_details', [WorkerController::class, 'profile_details'])->name('profile_details');
     Route::get('/all_worker_list', [WorkerController::class, 'all_worker_list'])->name('all_worker_list');
     Route::get('/list', [WorkerController::class, 'worker_list'])->name('worker_list');
