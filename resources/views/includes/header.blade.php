@@ -98,12 +98,12 @@
 
                         <a class="dropdown-item d-flex align-items-center" href="{{ route('profile.edit') }}">
                             <i class="fa fa-address-card mr-3"></i>
-                            <span>My Profile</span>
+                            <span> My Profile</span>
                         </a>
 
                         <a class="dropdown-item d-flex align-items-center" href="#">
                             <i class="fa fa-star mr-3"></i>
-                            <span>My Reviews</span>
+                            <span> My Reviews</span>
                         </a>
 
                         <div class="dropdown-divider mx-2"></div>
