@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
 
-class CategorySeeder extends Seeder
+class ServiceSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -29,10 +29,10 @@ class CategorySeeder extends Seeder
 
         $now = Carbon::now();
 
-        foreach ($categories as $category) {
-            DB::table('categories')->insert([
-                'title' => $category,
-                'slug' => Str::slug($category), // Generates 'ac-repair', 'cctv-cam', etc.
+        foreach ($categories as $service) {
+            DB::table('services')->insert([
+                'title' => $service,
+                'slug' => Str::slug($service), // Generates 'ac-repair', 'cctv-cam', etc.
                 'created_at' => $now,
                 'updated_at' => $now,
             ]);

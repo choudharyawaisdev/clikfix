@@ -1,7 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\User;
+use App\Models\Category;
 use Illuminate\Http\Request;
 
 class WorkerController extends Controller
@@ -11,14 +12,24 @@ class WorkerController extends Controller
         return view('worker.profile_details');
     }
 
-    public function all_worker_list(Request $request)
-    {
-        return view('worker.all_worker_list');
+public function allWorkerCategoryJob(Request $request)
+{
+    // Fetch all categories to show on page
+    $categories = Category::all();
+
+    // Optionally, if a service/category is selected via query parameter
+    $selectedCategoryId = $request->query('category_id');
+
+    if($selectedCategoryId) {
+        $users = User::where('category_id', $selectedCategoryId)
+                     ->whereNotNull('services')
+                     ->get();
+    } else {
+        // Fetch all users with services for listing
+        $users = User::whereNotNull('services')->get();
     }
 
+    return view('categoryjob.index', compact('categories', 'users'));
+}
 
-    public function worker_list(Request $request)
-    {
-        return view('worker.worker_list');
-    }
 }

@@ -1,7 +1,7 @@
 @extends('admin.layouts.app')
 
 @section('title')
-    Category Management
+    Service Management
 @endsection
 
 @section('body')
@@ -10,16 +10,16 @@
             <nav>
                 <ol class="breadcrumb mb-0">
                     <li class="breadcrumb-item"><a href="#">Home</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Category</li>
+                    <li class="breadcrumb-item active" aria-current="page">Services</li>
                 </ol>
             </nav>
-            <button class="btn btn-primary btn-sm" onclick="openAddModal()">Add Category</button>
+            <button class="btn btn-primary btn-sm" onclick="openAddModal()">Add Service</button>
         </div>
 
         <div class="col-xl-12">
             <div class="card custom-card overflow-hidden">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <h6 class="card-title">All Categories</h6>
+                    <h6 class="card-title">All Services</h6>
                 </div>
                 <div class="card-body p-2">
                     <div class="table-responsive">
@@ -34,19 +34,19 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($categories as $index => $category)
+                                @foreach ($services as $index => $service)
                                     <tr>
                                         <td>{{ $index + 1 }}</td>
-                                        <td>{{ $category->title }}</td>
-                                        <td>{{ $category->slug }}</td>
-                                        <td>{{ $category->created_at->format('d-m-Y') }}</td>
+                                        <td>{{ $service->title }}</td>
+                                        <td>{{ $service->slug }}</td>
+                                        <td>{{ $service->created_at->format('d-m-Y') }}</td>
                                         <td class="text-nowrap">
                                             <button class="btn btn-sm btn-outline-warning me-2"
-                                                onclick="openEditModal({{ $category }})">
+                                                onclick="openEditModal({{ $service }})">
                                                 <i class="fa fa-pen-to-square me-1"></i> Edit
                                             </button>
 
-                                            <form action="{{ route('admin.categories.destroy', $category->id) }}" method="POST" class="d-inline">
+                                            <form action="{{ route('admin.services.destroy', $service->id) }}" method="POST" class="d-inline">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Are you sure?')">
@@ -64,20 +64,20 @@
         </div>
     </div>
 
-    <div class="modal fade" id="categoryModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal fade" id="serviceModal" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog" role="document">
-            <form id="categoryForm" method="POST" action="">
+            <form id="serviceForm" method="POST" action="">
                 @csrf
                 <div id="methodField"></div>
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="categoryModalLabel">Category</h5>
+                        <h5 class="modal-title" id="serviceModalLabel">Service</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="title" class="mb-2">Title</label>
-                            <input type="text" class="form-control" name="title" id="title" placeholder=" Category Title" required>
+                            <input type="text" class="form-control" name="title" id="title" placeholder="Service Title" required>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -91,22 +91,22 @@
 
     <script>
         function openAddModal() {
-            $('#categoryForm').attr('action', '{{ route("admin.categories.store") }}');
+            $('#serviceForm').attr('action', '{{ route("admin.services.store") }}');
             $('#methodField').html('');
-            $('#categoryModalLabel').text('Add Category');
+            $('#serviceModalLabel').text('Add Service');
             $('#title').val('');
-            $('#categoryModal').modal('show');
+            $('#serviceModal').modal('show');
         }
 
-        function openEditModal(category) {
-            let url = '{{ route("admin.categories.update", ":id") }}';
-            url = url.replace(':id', category.id);
+        function openEditModal(service) {
+            let url = '{{ route("admin.services.update", ":id") }}';
+            url = url.replace(':id', service.id);
             
-            $('#categoryForm').attr('action', url);
+            $('#serviceForm').attr('action', url);
             $('#methodField').html('@method("PUT")');
-            $('#categoryModalLabel').text('Edit Category');
-            $('#title').val(category.title);
-            $('#categoryModal').modal('show');
+            $('#serviceModalLabel').text('Edit Service');
+            $('#title').val(service.title);
+            $('#serviceModal').modal('show');
         }
     </script>
 @endsection

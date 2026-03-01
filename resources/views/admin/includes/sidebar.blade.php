@@ -33,7 +33,7 @@
                 </li>
 
                 <li class="slide">
-                    <a href="{{ route('admin.categories.index') }}" class="side-menu__item">
+                    <a href="{{ route('admin.services.index') }}" class="side-menu__item">
                         <i class="bx bx-category side-menu__icon"></i>
                         <span class="side-menu__label">Category</span>
                     </a>
