@@ -15,14 +15,17 @@ class WorkerJobController extends Controller
      */
     public function index()
     {
-        $jobs = WorkerJob::latest()->paginate(10); // Using pagination is better for professional apps
+        $jobs = WorkerJob::with('category')
+                    ->latest()
+                    ->paginate(10);
+
         return view('workerjob.index', compact('jobs'));
     }
 
     /**
      * Show the form for creating a new job.
      */
-    public function create(Request $request, $id)
+    public function create(Request $request)
     {
         $categories = Category::all(); 
         return view('workerjob.create',compact('categories'));
@@ -35,7 +38,7 @@ class WorkerJobController extends Controller
     {
         $validated = $request->validate([
             'title'       => 'required|string|max:255',
-            'category'    => 'required|string', // Added based on your UI
+            'category_id' => 'required|exists:categories,id',
             'price'       => 'required|numeric|min:0',
             'description' => 'required|string',
             'image'       => 'nullable|image|mimes:jpeg,png,jpg|max:2048'
@@ -49,23 +52,26 @@ class WorkerJobController extends Controller
 
         WorkerJob::create($validated);
 
-        return redirect()->route('worker.jobworker.index')->with('success', 'Job posted successfully!');
+        return redirect()->route('worker.jobworker.index')
+                        ->with('success', 'Job posted successfully!');
     }
 
     /**
      * Show the form for editing the specified job.
      */
-    public function edit(WorkerJob $job)
+    public function edit($id)
     {
+        $job = WorkerJob::findOrFail($id);
         $categories = Category::all();
+
         return view('workerjob.edit', compact('job', 'categories'));
     }
 
-    /**
-     * Update the specified job in storage.
-     */
-    public function update(Request $request, WorkerJob $job)
+
+    public function update(Request $request, $id)
     {
+        $job = WorkerJob::findOrFail($id);
+
         $validated = $request->validate([
             'title'       => 'required|string|max:255',
             'category_id' => 'required|exists:categories,id',
@@ -75,18 +81,23 @@ class WorkerJobController extends Controller
         ]);
 
         if ($request->hasFile('image')) {
-            // Delete old image if exists
-            if ($job->image) {
+
+            if ($job->image && Storage::disk('public')->exists($job->image)) {
                 Storage::disk('public')->delete($job->image);
             }
+
             $validated['image'] = $request->file('image')->store('jobs', 'public');
         }
 
-        $validated['slug'] = Str::slug($request->title) . '-' . $job->id;
+        if ($job->title !== $request->title) {
+            $validated['slug'] = Str::slug($request->title) . '-' . $job->id;
+        }
 
         $job->update($validated);
 
-        return redirect()->route('worker.jobworker.index')->with('success', 'Job updated successfully.');
+        return redirect()
+            ->route('worker.jobworker.index')
+            ->with('success', 'Job updated successfully.');
     }
 
     /**

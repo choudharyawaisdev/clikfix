@@ -4,7 +4,6 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap"
         rel="stylesheet">
-
     <style>
         .profile-wrapper {
             background: #f4f7f6;
@@ -60,7 +59,6 @@
             color: white;
         }
     </style>
-
     <div class="profile-wrapper py-5">
         <div class="container">
             <div class="row">
@@ -90,51 +88,64 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach($jobs as $job)
+                                        @forelse($jobs as $job)
                                             <tr>
                                                 <td>
                                                     @if($job->image)
                                                         <img src="{{ asset('storage/' . $job->image) }}" class="job-thumb"
-                                                            alt="Job Image">
+                                                            alt="Job Image"
+                                                            style="width:60px;height:60px;object-fit:cover;border-radius:8px;">
                                                     @else
-                                                        <div
-                                                            class="job-thumb bg-light d-flex align-items-center justify-content-center text-muted">
+                                                        <div class="job-thumb bg-light d-flex align-items-center justify-content-center text-muted"
+                                                            style="width:60px;height:60px;border-radius:8px;">
                                                             <i class="fas fa-image"></i>
                                                         </div>
                                                     @endif
                                                 </td>
+
                                                 <td>
                                                     <div class="fw-bold text-dark">{{ $job->title }}</div>
-                                                    <span class="text-muted x-small">ID: #JOB-{{ $job->id }}</span>
                                                 </td>
+
                                                 <td>
                                                     <span class="badge bg-light text-dark border px-3 py-2 rounded-pill">
-                                                        {{ ucfirst($job->category ?? 'General') }}
+                                                        {{ $job->category->title ?? 'General' }}
                                                     </span>
                                                 </td>
+
                                                 <td class="text-primary fw-bold">
+                                                    Rs. {{ number_format($job->price, 0) }}
                                                 </td>
+
                                                 <td class="text-muted">
                                                     {{ $job->created_at->format('M d, Y') }}
                                                 </td>
+
                                                 <td class="text-end">
                                                     <div class="dropdown">
                                                         <button class="btn btn-light btn-sm rounded-pill" type="button"
                                                             data-bs-toggle="dropdown">
                                                             <i class="fas fa-ellipsis-v"></i>
                                                         </button>
+
                                                         <ul class="dropdown-menu dropdown-menu-end border-0 shadow-sm">
-                                                            <li><a class="dropdown-item"
-                                                                    href="{{ route('worker.jobworker.edit', $job->id) }}"><i
-                                                                        class="fas fa-edit me-2 text-info"></i> Edit</a></li>
+                                                            <li>
+                                                                <a class="dropdown-item"
+                                                                    href="{{ route('worker.jobworker.edit', $job->id) }}">
+                                                                    <i class="fas fa-edit me-2 text-info"></i> Edit
+                                                                </a>
+                                                            </li>
+
                                                             <li>
                                                                 <hr class="dropdown-divider">
                                                             </li>
+
                                                             <li>
                                                                 <form action="{{ route('worker.jobworker.destroy', $job->id) }}"
                                                                     method="POST" onsubmit="return confirm('Delete this job?')">
                                                                     @csrf
                                                                     @method('DELETE')
+
                                                                     <button type="submit" class="dropdown-item text-danger">
                                                                         <i class="fas fa-trash me-2"></i> Delete
                                                                     </button>
@@ -144,11 +155,16 @@
                                                     </div>
                                                 </td>
                                             </tr>
-                                        @endforeach
+                                        @empty
+                                            <tr>
+                                                <td colspan="6" class="text-center text-muted py-4">
+                                                    No jobs found.
+                                                </td>
+                                            </tr>
+                                        @endforelse
                                     </tbody>
                                 </table>
                             </div>
-
                         </div>
                     </div>
                 </div>
