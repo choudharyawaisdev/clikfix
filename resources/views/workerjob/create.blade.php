@@ -115,11 +115,11 @@
                                     </div>
 
                                     <div class="col-md-6">
-                                        <label class="form-label">Category</label>
-                                        <select name="category_id" id="categorySelect" class="form-select" required>
-                                            <option value="" disabled selected>Select a category</option>
-                                            @foreach ($categories as $category)
-                                                <option value="{{ $category->id }}">{{ $category->title }}</option>
+                                        <label class="form-label">Service</label>
+                                        <select name="service_id" id="serviceSelect" class="form-select" required>
+                                            <option value="" disabled selected>Select a service</option>
+                                            @foreach ($services as $service)
+                                                <option value="{{ $service->id }}">{{ $service->title }}</option>
                                             @endforeach
                                         </select>
                                     </div>

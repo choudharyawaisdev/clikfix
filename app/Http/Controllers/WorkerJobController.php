@@ -3,42 +3,33 @@
 namespace App\Http\Controllers;
 
 use App\Models\WorkerJob;
-use App\Models\Category; // Assuming you have a Category model
+use App\Models\Service;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 
 class WorkerJobController extends Controller
 {
-    /**
-     * Display a listing of the jobs.
-     */
     public function index()
     {
-        $jobs = WorkerJob::with('category')
+        $jobs = WorkerJob::with('service')
                     ->latest()
                     ->paginate(10);
 
         return view('workerjob.index', compact('jobs'));
     }
 
-    /**
-     * Show the form for creating a new job.
-     */
     public function create(Request $request)
     {
-        $categories = Category::all(); 
-        return view('workerjob.create',compact('categories'));
+        $services = Service::all(); 
+        return view('workerjob.create', compact('services'));
     }
 
-    /**
-     * Store a newly created job in storage.
-     */
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'title'       => 'required|string|max:255',
-            'category_id' => 'required|exists:categories,id',
+            'title'      => 'required|string|max:255',
+            'service_id' => 'required|exists:services,id',
             'price'       => 'required|numeric|min:0',
             'description' => 'required|string',
             'image'       => 'nullable|image|mimes:jpeg,png,jpg|max:2048'
@@ -56,36 +47,30 @@ class WorkerJobController extends Controller
                         ->with('success', 'Job posted successfully!');
     }
 
-    /**
-     * Show the form for editing the specified job.
-     */
     public function edit($id)
     {
         $job = WorkerJob::findOrFail($id);
-        $categories = Category::all();
+        $services = Service::all();
 
-        return view('workerjob.edit', compact('job', 'categories'));
+        return view('workerjob.edit', compact('job', 'services'));
     }
-
 
     public function update(Request $request, $id)
     {
         $job = WorkerJob::findOrFail($id);
 
         $validated = $request->validate([
-            'title'       => 'required|string|max:255',
-            'category_id' => 'required|exists:categories,id',
+            'title'      => 'required|string|max:255',
+            'service_id' => 'required|exists:services,id',
             'price'       => 'required|numeric|min:0',
             'description' => 'required|string',
             'image'       => 'nullable|image|mimes:jpeg,png,jpg|max:2048'
         ]);
 
         if ($request->hasFile('image')) {
-
             if ($job->image && Storage::disk('public')->exists($job->image)) {
                 Storage::disk('public')->delete($job->image);
             }
-
             $validated['image'] = $request->file('image')->store('jobs', 'public');
         }
 
@@ -100,9 +85,6 @@ class WorkerJobController extends Controller
             ->with('success', 'Job updated successfully.');
     }
 
-    /**
-     * Remove the specified job from storage.
-     */
     public function destroy(WorkerJob $job)
     {
         if ($job->image) {

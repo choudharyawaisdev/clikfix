@@ -21,7 +21,6 @@
             color: #f39c12 !important;
         }
 
-        /* DataTable Customization */
         .dataTables_wrapper .dataTables_paginate .paginate_button.current {
             background: #f39c12 !important;
             border-color: #f39c12 !important;
@@ -81,7 +80,7 @@
                                         <tr>
                                             <th>Image</th>
                                             <th>Job Title</th>
-                                            <th>Category</th>
+                                            <th>Service</th>
                                             <th>Budget</th>
                                             <th>Created At</th>
                                             <th class="text-end">Action</th>
@@ -109,7 +108,7 @@
 
                                                 <td>
                                                     <span class="badge bg-light text-dark border px-3 py-2 rounded-pill">
-                                                        {{ $job->category->title ?? 'General' }}
+                                                        {{ $job->service->title ?? 'General' }}
                                                     </span>
                                                 </td>
 
@@ -180,14 +179,13 @@
         $(document).ready(function () {
             $('#jobsTable').DataTable({
                 "pageLength": 10,
-                "order": [[4, "desc"]], // Order by 'Created At' column
+                "order": [[4, "desc"]],
                 "language": {
                     "searchPlaceholder": "Search jobs...",
                     "search": "",
                 }
             });
 
-            // Stylizing the search box
             $('.dataTables_filter input').addClass('form-control rounded-pill px-3');
             $('.dataTables_length select').addClass('form-select rounded-pill');
         });

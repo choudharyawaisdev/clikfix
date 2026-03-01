@@ -9,31 +9,22 @@ class WorkerJob extends Model
 {
     use HasFactory;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
     protected $fillable = [
-    'title', 
-    'slug', 
-    'category_id', // Make sure this is here!
-    'price', 
-    'description', 
-    'image'
+        'title', 
+        'slug', 
+        'service_id', 
+        'price', 
+        'description', 
+        'image'
     ];
 
-    /**
-     * If you want to link this job to a specific user (Worker)
-     * you can add a relationship here later.
-     */
     public function user()
     {
         return $this->belongsTo(User::class);
     }
 
-    public function category()
+    public function service()
     {
-        return $this->belongsTo(Category::class);
+        return $this->belongsTo(Service::class);
     }
 }

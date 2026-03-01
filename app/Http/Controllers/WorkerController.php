@@ -1,35 +1,54 @@
 <?php
 
-namespace App\Http\Controllers;
-use App\Models\User;
-use App\Models\Category;
+namespace App\Http\Controllers\Admin;
+
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Service;
 
-class WorkerController extends Controller
+class ServiceController extends Controller
 {
-    public function profile_details(Request $request)
+    public function index()
     {
-        return view('worker.profile_details');
+        $services = Service::latest()->get();
+        return view('admin.services.index', compact('services'));
     }
 
-public function allWorkerCategoryJob(Request $request)
-{
-    // Fetch all categories to show on page
-    $categories = Category::all();
+    public function store(Request $request)
+    {
+        $request->validate([
+            'title' => 'required|string|max:255|unique:services,title',
+        ], [
+            'title.unique' => 'This service already exists.',
+        ]);
 
-    // Optionally, if a service/category is selected via query parameter
-    $selectedCategoryId = $request->query('category_id');
+        Service::create([
+            'title' => $request->title,
+        ]);
 
-    if($selectedCategoryId) {
-        $users = User::where('category_id', $selectedCategoryId)
-                     ->whereNotNull('services')
-                     ->get();
-    } else {
-        // Fetch all users with services for listing
-        $users = User::whereNotNull('services')->get();
+        return redirect()->back()->with('success', 'Service created successfully.');
     }
 
-    return view('categoryjob.index', compact('categories', 'users'));
-}
+    public function update(Request $request, $id)
+    {
+        $service = Service::findOrFail($id);
 
+        $request->validate([
+            'title' => 'required|string|max:255|unique:services,title,' . $id,
+        ]);
+
+        $service->update([
+            'title' => $request->title,
+        ]);
+
+        return redirect()->back()->with('success', 'Service updated successfully.');
+    }
+
+    public function destroy($id)
+    {
+        $service = Service::findOrFail($id);
+        $service->delete();
+
+        return redirect()->back()->with('success', 'Service deleted successfully.');
+    }
 }
