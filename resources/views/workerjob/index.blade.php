@@ -11,6 +11,13 @@
             font-family: 'Plus Jakarta Sans', sans-serif;
         }
 
+        .active>.page-link, .page-link.active {
+            z-index: 3;
+            color: white;
+            background-color: #f39c12;
+            border-color: #f39c12;
+        }
+
         .card {
             border: none;
             border-radius: 24px;

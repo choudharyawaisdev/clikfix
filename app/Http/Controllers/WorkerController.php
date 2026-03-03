@@ -1,54 +1,22 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Service;
+use App\Models\User; // Assuming workers are users
 
-class ServiceController extends Controller
+class WorkerController extends Controller
 {
-    public function index()
+    public function workerservices($category)
     {
-        $services = Service::latest()->get();
-        return view('admin.services.index', compact('services'));
+        $services = Service::all();
+        $filteredWorkers = User::where('services', 'LIKE', "%$category%")->get();
+        return view('workerservices.index', compact('services', 'filteredWorkers', 'category'));
     }
 
-    public function store(Request $request)
+    public function profile_details()
     {
-        $request->validate([
-            'title' => 'required|string|max:255|unique:services,title',
-        ], [
-            'title.unique' => 'This service already exists.',
-        ]);
-
-        Service::create([
-            'title' => $request->title,
-        ]);
-
-        return redirect()->back()->with('success', 'Service created successfully.');
-    }
-
-    public function update(Request $request, $id)
-    {
-        $service = Service::findOrFail($id);
-
-        $request->validate([
-            'title' => 'required|string|max:255|unique:services,title,' . $id,
-        ]);
-
-        $service->update([
-            'title' => $request->title,
-        ]);
-
-        return redirect()->back()->with('success', 'Service updated successfully.');
-    }
-
-    public function destroy($id)
-    {
-        $service = Service::findOrFail($id);
-        $service->delete();
-
-        return redirect()->back()->with('success', 'Service deleted successfully.');
+        return view('workerjob.profile_details');
     }
 }

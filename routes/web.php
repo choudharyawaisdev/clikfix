@@ -13,12 +13,12 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::resource('services', ServiceController::class);
 });
 
-Route::get('/index', [IndexController::class, 'index'])->name('index');
+Route::get('/', [IndexController::class, 'index'])->name('index');
 
 Route::prefix('worker')->name('worker.')->group(function () {
+    Route::get('/services/{category}', [WorkerController::class, 'workerservices'])->name('workerservices');
     Route::resource('jobworker', WorkerJobController::class);
-    Route::get('/profile_details', [WorkerController::class, 'profile_details'])->name('profile_details');
-    Route::get('/categoryworkerlist', [WorkerController::class, 'allWorkerCategoryJob'])->name('all_worker_list');
+    Route::get('/profile_details/{id}', [WorkerController::class, 'profile_details'])->name('profile_details');
 });
 
 
@@ -34,9 +34,7 @@ Route::prefix('worker')->name('worker.')->group(function () {
 
 
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
 
 Route::get('/dashboard', function () {
     return view('dashboard');
