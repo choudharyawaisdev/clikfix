@@ -108,9 +108,7 @@
                                         <p class="text-muted small mb-1">
                                             <i class="fas fa-briefcase me-1"></i> {{ $worker->services }}
                                         </p>
-                                        <p class="text-muted small mb-1">
-                                            <i class="fas fa-phone-alt me-1"></i> {{ $worker->phone_number }}
-                                        </p>
+                                        
                                         <p class="text-muted small mb-3">
                                             <i class="fas fa-envelope me-1"></i> {{ $worker->email }}
                                         </p>
