@@ -71,8 +71,7 @@
 </section>
 
     <section class="py-5 bg-light">
-    <div class="container">
-        
+    <div class="container"> 
         @foreach($categoryIcons as $serviceName => $icon)
             @php 
                 // Filter users for this specific service category
@@ -122,7 +121,6 @@
                         @endforeach
                     </div>
                 </div>
-                <hr class="my-5 opacity-25">
             @endif
         @endforeach
     </div>

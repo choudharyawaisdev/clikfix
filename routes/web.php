@@ -19,6 +19,8 @@ Route::prefix('worker')->name('worker.')->group(function () {
     Route::get('/services/{category}', [WorkerController::class, 'workerservices'])->name('workerservices');
     Route::resource('jobworker', WorkerJobController::class);
     Route::get('/profile_details/{id}', [WorkerController::class, 'profile_details'])->name('profile_details');
+    Route::get('/profile/update', [WorkerController::class, 'edit_profile'])->name('profile.edit');
+    Route::post('/profile/update', [WorkerController::class, 'update_profile'])->name('profile.update');
 });
 
 
