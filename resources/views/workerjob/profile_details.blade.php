@@ -10,22 +10,24 @@
                         <div class="card-body p-4">
                             <div class="d-md-flex align-items-center">
                                 <div class="profile-img-container mb-3 mb-md-0">
-                                    <img src="https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=300&q=80"
+                                    <img src="{{ $user->profile_picture ? asset('storage/' . $user->profile_picture) : 'https://ui-avatars.com/api/?name=' . urlencode($user->name) }}"
                                         alt="Profile Image" class="profile-img shadow">
                                     <span class="badge-status online"></span>
                                 </div>
                                 <div class="ms-md-4">
-                                    <h2 class="fw-bold mb-1">Ahmed Khan <i
-                                            class="fas fa-check-circle text-primary fs-5"></i></h2>
-                                    <p class="text-muted mb-2"><i class="fas fa-tools me-2"></i>Master Electrician & Wiring
-                                        Expert</p>
+                                    <h2 class="fw-bold mb-1">{{ $user->name }}
+                                        <i class="fas fa-check-circle text-primary fs-5"></i>
+                                    </h2>
+                                    <p class="text-muted mb-2">
+                                        <i class="fas fa-tools me-2"></i>{{ $user->services ?? 'General Worker' }}
+                                    </p>
                                     <div class="d-flex align-items-center gap-3">
                                         <div class="rating-pill">
-                                            <i class="fas fa-star text-warning"></i> 4.9 <span class="text-muted">(128
-                                                Reviews)</span>
+                                            <i class="fas fa-star text-warning"></i> 5.0
+                                            <span class="text-muted">(Verified)</span>
                                         </div>
                                         <div class="experience-badge">
-                                            <strong>8+ Years</strong> Experience
+                                            <strong>Member Since</strong> {{ $user->created_at->format('M Y') }}
                                         </div>
                                     </div>
                                 </div>
@@ -37,61 +39,30 @@
                         <div class="card-body p-4">
                             <h5 class="fw-bold mb-3">About / Description</h5>
                             <p class="text-secondary leading-relaxed">
-                                Professional electrician with over 8 years of experience in residential and commercial
-                                wiring.
-                                Specializing in UPS installations, short circuit repairs, and smart home automation.
-                                I pride myself on punctuality, safety standards, and providing long-term solutions for my
-                                clients.
+                                {{ $user->description ?? 'No description provided.' }}
                             </p>
                         </div>
                     </div>
 
                     <div class="card profile-sub-card mb-4">
                         <div class="card-body p-4">
-                            <h5 class="fw-bold mb-4">My Services</h5>
+                            <h5 class="fw-bold mb-4">Available Services</h5>
                             <div class="row g-3">
-                                <div class="col-md-4">
-                                    <div class="service-card text-center p-3 h-100">
-                                        <img src="https://images.unsplash.com/photo-1581094288338-2314dddb7ead?auto=format&fit=crop&w=300&q=80"
-                                            alt="AC Repair" class="service-thumb mb-3">
-                                        <h6 class="fw-bold mb-1">AC Installation</h6>
-                                        <p class="text-primary fw-bold mb-0">Rs. 2,500</p>
+                                @forelse($worker_jobs as $job)
+                                    <div class="col-md-4">
+                                        <div class="service-card text-center p-3 h-100">
+                                            <img src="{{ asset('storage/' . $job->image) }}"
+                                                onerror="this.src='https://placehold.co/300x200?text=Service'"
+                                                alt="{{ $job->title }}" class="service-thumb mb-3">
+                                            <h6 class="fw-bold mb-1">{{ $job->title }}</h6>
+                                            <p class="text-primary fw-bold mb-0">Rs. {{ number_format($job->price) }}</p>
+                                        </div>
                                     </div>
-                                </div>
-
-                                <div class="col-md-4">
-                                    <div class="service-card text-center p-3 h-100">
-                                        <img src="https://images.unsplash.com/photo-1621905252507-b354bcadcabc?auto=format&fit=crop&w=300&q=80"
-                                            alt="Wiring" class="service-thumb mb-3">
-                                        <h6 class="fw-bold mb-1">Full House Wiring</h6>
-                                        <p class="text-primary fw-bold mb-0">Rs. 15,000</p>
+                                @empty
+                                    <div class="col-12 text-center py-4">
+                                        <p class="text-muted">No specific services listed yet.</p>
                                     </div>
-                                </div>
-
-                                <div class="col-md-4">
-                                    <div class="service-card text-center p-3 h-100">
-                                        <img src="https://images.unsplash.com/photo-1558002038-1055907df827?auto=format&fit=crop&w=300&q=80"
-                                            alt="UPS" class="service-thumb mb-3">
-                                        <h6 class="fw-bold mb-1">UPS Repair</h6>
-                                        <p class="text-primary fw-bold mb-0">Rs. 1,200</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="card profile-sub-card">
-                        <div class="card-body p-4">
-                            <h5 class="fw-bold mb-4">Recent Reviews</h5>
-                            <div class="review-item mb-3 pb-3 border-bottom">
-                                <div class="d-flex justify-content-between mb-2">
-                                    <h6 class="fw-bold m-0">Zubair Ahmed</h6>
-                                    <span class="text-warning small"><i class="fas fa-star"></i><i
-                                            class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i
-                                            class="fas fa-star"></i></span>
-                                </div>
-                                <p class="small text-muted mb-0">"Excellent service! Fixed my main board issue within 30
-                                    minutes. Highly recommended for electrical work."</p>
+                                @endforelse
                             </div>
                         </div>
                     </div>
@@ -106,7 +77,7 @@
                                 <div class="contact-icon"><i class="fas fa-envelope"></i></div>
                                 <div class="ms-3">
                                     <small class="text-muted d-block">Email Address</small>
-                                    <span class="fw-semibold">ahmed.khan@example.com</span>
+                                    <span class="fw-semibold">{{ $user->email }}</span>
                                 </div>
                             </div>
 
@@ -114,20 +85,23 @@
                                 <div class="contact-icon"><i class="fas fa-phone-alt"></i></div>
                                 <div class="ms-3">
                                     <small class="text-muted d-block">Mobile Number</small>
-                                    <span class="fw-semibold">+92 300 1234567</span>
+                                    <span class="fw-semibold">{{ $user->phone_number ?? 'Not Available' }}</span>
                                 </div>
                             </div>
 
                             <div class="contact-item d-flex align-items-center mb-4">
                                 <div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div>
                                 <div class="ms-3">
-                                    <small class="text-muted d-block">Address</small>
-                                    <span class="fw-semibold">Model Town, Block C, Lahore</span>
+                                    <small class="text-muted d-block">Location</small>
+                                    <span class="fw-semibold">Pakistan</span>
                                 </div>
                             </div>
 
-                            <button class="btn btn-search w-100 mb-2 py-3">Hire Ahmed Now</button>
-                            <button class="btn btn-outline-secondary w-100 py-2">Message</button>
+                            <button class="btn btn-search w-100 mb-2 py-3">Hire {{ explode(' ', $user->name)[0] }}
+                                Now</button>
+                            <a href="https://wa.me/{{ $user->phone }}" class="btn btn-outline-success w-100 py-2">
+                                <i class="fab fa-whatsapp me-2"></i>WhatsApp
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -140,7 +114,6 @@
         :root {
             --primary: #f39c12;
             --secondary: #2c3e50;
-            --light-bg: #f8f9fa;
         }
 
         .profile-wrapper {
@@ -148,7 +121,6 @@
             min-height: 100vh;
         }
 
-        /* Profile Image Styles */
         .profile-img-container {
             position: relative;
             width: 120px;
@@ -174,7 +146,6 @@
             border-radius: 50%;
         }
 
-        /* Cards Styling */
         .card {
             border: none;
             border-radius: 24px;
@@ -194,18 +165,16 @@
             color: var(--secondary);
         }
 
-        /* Service Card Styles */
         .service-card {
             border: 1px solid #f0f0f0;
             border-radius: 20px;
-            transition: all 0.3s ease;
+            transition: 0.3s;
             background: #fff;
         }
 
         .service-card:hover {
             border-color: var(--primary);
             transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
         }
 
         .service-thumb {
@@ -215,11 +184,6 @@
             border-radius: 15px;
         }
 
-        .text-primary {
-            color: var(--primary) !important;
-        }
-
-        /* Contact Sidebar */
         .contact-icon {
             width: 40px;
             height: 40px;
@@ -229,7 +193,6 @@
             align-items: center;
             justify-content: center;
             border-radius: 12px;
-            font-size: 1.1rem;
         }
 
         .btn-search {
@@ -237,14 +200,11 @@
             color: white;
             border-radius: 15px;
             font-weight: 700;
-            transition: 0.3s;
             border: none;
         }
 
         .btn-search:hover {
             background: #e67e22;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(243, 156, 18, 0.4);
             color: white;
         }
 
