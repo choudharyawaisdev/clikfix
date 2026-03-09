@@ -32,9 +32,12 @@ class RegisteredUserController extends Controller
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
-            'phone_number' => ['required', 'string', 'max:20'],
+            // Added unique check for phone_number
+            'phone_number' => ['required', 'string', 'max:20', 'unique:'.User::class], 
             'state' => ['required', 'string', 'max:255'],
             'city' => ['required', 'string', 'max:255'],
+            // Country is validated, but we will force "Pakistan" below
+            'country' => ['required', 'string'], 
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
@@ -44,7 +47,7 @@ class RegisteredUserController extends Controller
             'phone_number' => $request->phone_number,
             'state' => $request->state,
             'city' => $request->city,
-            'pakistan' => 'Pakistan',
+            'country' => 'Pakistan', // Hardcoded here for security
             'password' => Hash::make($request->password),
         ]);
 

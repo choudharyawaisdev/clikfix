@@ -23,7 +23,7 @@ class User extends Authenticatable
         'password',
         'state',        // Add this
         'city',         // Add this
-        'pakistan',     // Add this
+        'country',     // Add this
         'services',     // Add this
         'phone_number', // Add this
         'role',         // Add this
