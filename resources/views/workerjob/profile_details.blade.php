@@ -46,7 +46,15 @@
 
                     <div class="card profile-sub-card mb-4">
                         <div class="card-body p-4">
-                            <h5 class="fw-bold mb-4">Available Services</h5>
+                            <div class="d-flex justify-content-between align-items-center mb-4">
+                                <h5 class="fw-bold m-0">Available Services</h5>
+                                <button class="btn btn-search px-4 py-2 d-flex align-items-center justify-content-center">
+                                    <a href="{{ route('worker.jobworker.create') }}"
+                                        class="text-decoration-none text-white">
+                                        Create Service
+                                    </a>
+                                </button>
+                            </div>
                             <div class="row g-3">
                                 @forelse($worker_jobs as $job)
                                     <div class="col-md-4">
@@ -93,7 +101,8 @@
                                 <div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div>
                                 <div class="ms-3">
                                     <small class="text-muted d-block">Location</small>
-                                    <span class="fw-semibold">Pakistan</span>
+                                    <span
+                                        class="fw-semibold">{{ $user->city }},{{ $user->state }},{{ $user->country }}</span>
                                 </div>
                             </div>
 
