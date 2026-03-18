@@ -68,52 +68,44 @@
 
 <section class="py-5 bg-light">
     <div class="container"> 
-        @foreach($services as $service)
-            <div class="category-row mb-5" id="section-{{ $service->slug }}">
-                <div class="d-flex justify-content-between align-items-center mb-4">
-                    <div>
-                        <h3 class="fw-bold m-0">Expert <span class="text-warning">{{ $service->title }}s</span></h3>
-                        <p class="text-muted small m-0">Verified {{ $service->title }} professionals</p>
-                    </div>
-                    <a href="{{ route('worker.workerservices', ['category' => $service->slug]) }}" class="btn btn-outline-warning btn-sm rounded-pill px-3">
-                        View All {{ $service->title }}
-                    </a>
-                </div>
+        @foreach($categoryIcons as $serviceName => $icon)
+            @php 
+                $filteredWorkers = $users->where('services', $serviceName); 
+            @endphp
 
-                <div class="row g-3">
-                    @foreach($service->workerJobs as $job)
-                        @php $worker = $job->user; @endphp
-                        @if($worker)
+            @if($filteredWorkers->count() > 0)
+                <div class="category-row mb-5" id="section-{{ Str::slug($serviceName) }}">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <div>
+                            <h3 class="fw-bold m-0">Expert <span class="text-warning">{{ $serviceName }}s</span></h3>
+                            <p class="text-muted small m-0">Verified {{ $serviceName }} professionals</p>
+                        </div>
+                        <a href="{{ route('worker.workerservices', ['category' => $serviceName]) }}" class="btn btn-outline-warning btn-sm rounded-pill px-3">
+                            View All {{ $serviceName }}s
+                        </a>
+                    </div>
+
+                    <div class="row g-3">
+                        @foreach($filteredWorkers as $worker)
                             <div class="col-lg-3 col-md-6">
                                 <div class="card worker-card">
                                     <div class="worker-img-wrapper">
-                                        {{-- Fetch Job Image or Fallback to Avatar --}}
-                                        @if($job->image)
-                                            <img src="{{ asset('storage/' . $job->image) }}" class="worker-img" alt="{{ $job->title }}">
-                                        @else
-                                            <img src="https://ui-avatars.com/api/?name={{ urlencode($worker->name) }}&background=f39c12&color=fff" class="worker-img">
-                                        @endif
-                                        
-                                        {{-- Display Job Price --}}
-                                        <div class="badge-rating">
-                                            <span class="fw-bold">Rs. {{ number_format($job->price) }}</span>
-                                        </div>
+                                        <img src="https://ui-avatars.com/api/?name={{ urlencode($worker->name) }}&background=f39c12&color=fff" class="worker-img">
+                                        <div class="badge-rating"><i class="fas fa-star text-warning"></i> 4.9</div>
                                     </div>
-
                                     <div class="card-body p-3">
-                                        {{-- Display Job Title --}}
-                                        <h6 class="fw-bold mb-1 text-truncate" title="{{ $job->title }}">
-                                            {{ $job->title }}
+                                        <h6 class="fw-bold mb-1">
+                                            {{ $worker->name }} 
+                                            <i class="fas fa-check-circle text-primary small"></i>
                                         </h6>
-
                                         <p class="text-muted small mb-1">
-                                            <i class="fas fa-user me-1"></i> {{ $worker->name }}
+                                            <i class="fas fa-briefcase me-1"></i> {{ $worker->services }}
                                         </p>
-                                        
                                         <p class="text-muted small mb-3">
-                                            <i class="fas fa-briefcase me-1"></i> {{ $service->title }}
+                                            <i class="fas fa-envelope me-1"></i> {{ $worker->email }}
                                         </p>
 
+                                        {{-- AUTH CHECK LOGIC --}}
                                         @if (Auth::check())
                                             <a href="/worker/profile_details/{{ $worker->id }}" class="btn btn-view w-100">
                                                 Worker Details
@@ -126,10 +118,10 @@
                                     </div>
                                 </div>
                             </div>
-                        @endif
-                    @endforeach
+                        @endforeach
+                    </div>
                 </div>
-            </div>
+            @endif
         @endforeach
     </div>
 </section>
@@ -149,7 +141,7 @@
                 <p class="text-muted">Please log in to your account to view worker contact details and profiles.</p>
                 <div class="d-grid gap-2 mt-4">
                     <a href="{{ route('login') }}" class="btn btn-warning fw-bold py-2">Login Now</a>
-                    <a href="{{ route('register') }}" class="btn btn btn-sm border-0">Don't have an account? Register</a>
+                    <a href="{{ route('register') }}" class="btn btn-outline-secondary btn-sm border-0">Don't have an account? Register</a>
                 </div>
             </div>
         </div>
