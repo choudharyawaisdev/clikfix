@@ -27,4 +27,9 @@ class Service extends Model
             }
         });
     }
+
+    public function workerJobs()
+    {
+        return $this->hasMany(WorkerJob::class, 'service_id');
+    }
 }

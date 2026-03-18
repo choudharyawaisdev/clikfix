@@ -11,11 +11,12 @@ class WorkerJob extends Model
 
     protected $fillable = [
         'title', 
-        'slug', 
+        'user_id', 
         'service_id', 
         'price', 
         'description', 
-        'image'
+        'image', 
+        'slug'
     ];
 
     public function user()

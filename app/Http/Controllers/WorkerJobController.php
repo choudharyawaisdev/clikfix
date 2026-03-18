@@ -28,8 +28,8 @@ class WorkerJobController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'title'      => 'required|string|max:255',
-            'service_id' => 'required|exists:services,id',
+            'title'       => 'required|string|max:255',
+            'service_id'  => 'required|exists:services,id',
             'price'       => 'required|numeric|min:0',
             'description' => 'required|string',
             'image'       => 'nullable|image|mimes:jpeg,png,jpg|max:2048'
@@ -39,12 +39,14 @@ class WorkerJobController extends Controller
             $validated['image'] = $request->file('image')->store('jobs', 'public');
         }
 
-        $validated['slug'] = Str::slug($request->title) . '-' . rand(1000, 9999);
+        $validated['user_id'] = auth()->id();
+        $validated['slug']    = str($request->title)->slug() . '-' . rand(1000, 9999);
 
         WorkerJob::create($validated);
 
-        return redirect()->route('worker.jobworker.index')
-                        ->with('success', 'Job posted successfully!');
+        return redirect()
+            ->route('worker.jobworker.index')
+            ->with('success', 'Job posted successfully!');
     }
 
     public function edit($id)
@@ -61,6 +63,7 @@ class WorkerJobController extends Controller
 
         $validated = $request->validate([
             'title'      => 'required|string|max:255',
+            'user_id'    => 'required|exists:users,id',
             'service_id' => 'required|exists:services,id',
             'price'       => 'required|numeric|min:0',
             'description' => 'required|string',
